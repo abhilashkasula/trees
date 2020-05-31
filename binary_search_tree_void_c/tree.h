@@ -28,11 +28,20 @@ typedef enum
   True
 } Bool;
 
+typedef enum
+{
+  Lesser,
+  Greater,
+  Equal
+} Cmp_Status;
+
 typedef Bool (*Predicate)(Object, Object);
+typedef Cmp_Status (*Compare)(Object, Object);
+typedef void (*Change_Node)(Node_ptr);
 
 Node_ptr create_node(Object);
 Tree_ptr create_tree(void);
 void insert_node(Tree_ptr, Object, Predicate);
-Bool search(Tree_ptr, Object, Predicate);
+Bool search(Tree_ptr, Object, Compare);
 
 #endif

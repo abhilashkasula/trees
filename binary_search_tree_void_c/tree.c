@@ -37,3 +37,36 @@ void insert_node(Tree_ptr tree, Object value, Predicate predicate)
 
   *ptr_to_set = create_node(value);
 }
+
+void left(Node_ptr * node)
+{
+  *node = (*node)->left;
+}
+
+void right(Node_ptr * node)
+{
+  *node = (*node)->right;
+}
+
+Bool search(Tree_ptr tree, Object value, Compare compare)
+{
+  Node_ptr p_walk = tree->root;
+  Bool is_present = False;
+  Change_Node functions[2] = {&left, &right};
+
+  while (p_walk != NULL && !is_present)
+  {
+    Cmp_Status status = (*compare)(value, p_walk->value);
+
+    if (status == Equal)
+    {
+      is_present = True;
+    }
+    else 
+    {
+      functions[status](&p_walk);
+    }
+  }
+  
+  return is_present;
+}
