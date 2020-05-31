@@ -32,7 +32,7 @@ typedef Bool (*Predicate)(Object, Object);
 
 Node_ptr create_node(Object);
 Tree_ptr create_tree(void);
-void insert_node(Tree_ptr, Object);
+void insert_node(Tree_ptr, Object, Predicate);
 Bool search(Tree_ptr, Object, Predicate);
 
 #endif
