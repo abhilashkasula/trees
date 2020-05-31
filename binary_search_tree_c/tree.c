@@ -62,3 +62,63 @@ Bool search(Tree_ptr tree, int value)
 
   return flag;
 }
+
+void in_order(Tree_ptr tree)
+{
+  if(tree->root == NULL)
+  {
+    return;
+  }
+
+  Tree_ptr left_tree = create_tree();
+  Tree_ptr right_tree = create_tree();
+  left_tree->root = tree->root->left;
+  right_tree->root = tree->root->right;
+
+  in_order(left_tree);
+  printf("%d\n", tree->root->value);
+  in_order(right_tree);
+
+  free(left_tree);
+  free(right_tree);
+}
+
+void pre_order(Tree_ptr tree)
+{
+  if(tree->root == NULL)
+  {
+    return;
+  }
+
+  Tree_ptr left_tree = create_tree();
+  Tree_ptr right_tree = create_tree();
+  left_tree->root = tree->root->left;
+  right_tree->root = tree->root->right;
+
+  printf("%d\n", tree->root->value);
+  pre_order(left_tree);
+  pre_order(right_tree);
+
+  free(left_tree);
+  free(right_tree);
+}
+
+void post_order(Tree_ptr tree)
+{
+  if(tree->root == NULL)
+  {
+    return;
+  }
+
+  Tree_ptr left_tree = create_tree();
+  Tree_ptr right_tree = create_tree();
+  left_tree->root = tree->root->left;
+  right_tree->root = tree->root->right;
+
+  post_order(left_tree);
+  post_order(right_tree);
+  printf("%d\n", tree->root->value);
+
+  free(left_tree);
+  free(right_tree);
+}
