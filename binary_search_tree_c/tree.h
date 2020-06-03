@@ -4,21 +4,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct node {
+typedef struct node
+{
   int value;
   struct node *left;
   struct node *right;
 } Node;
 
-typedef Node * Node_ptr;
+typedef Node *Node_ptr;
 
-typedef struct {
+typedef struct
+{
   Node_ptr root;
 } Tree;
 
 typedef Tree *Tree_ptr;
 
-typedef enum {
+typedef enum
+{
   False,
   True
 } Bool;

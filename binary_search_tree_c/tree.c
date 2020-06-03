@@ -45,12 +45,12 @@ Bool search(Tree_ptr tree, int value)
 
   while (p_walk != NULL && !flag)
   {
-    if(value == p_walk->value)
+    if (value == p_walk->value)
     {
       flag = True;
     }
 
-    if(value < p_walk->value)
+    if (value < p_walk->value)
     {
       p_walk = p_walk->left;
     }
@@ -65,7 +65,7 @@ Bool search(Tree_ptr tree, int value)
 
 void in_order(Tree_ptr tree)
 {
-  if(tree->root == NULL)
+  if (tree->root == NULL)
   {
     return;
   }
@@ -85,7 +85,7 @@ void in_order(Tree_ptr tree)
 
 void pre_order(Tree_ptr tree)
 {
-  if(tree->root == NULL)
+  if (tree->root == NULL)
   {
     return;
   }
@@ -105,7 +105,7 @@ void pre_order(Tree_ptr tree)
 
 void post_order(Tree_ptr tree)
 {
-  if(tree->root == NULL)
+  if (tree->root == NULL)
   {
     return;
   }
