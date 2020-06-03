@@ -129,19 +129,19 @@ Prev_Curr_ptr get_node(Tree_ptr tree, int value)
   Prev_Curr_ptr prev_curr = malloc(sizeof(Prev_Curr));
   prev_curr->curr = tree->root;
   prev_curr->prev = NULL;
-  prev_curr->direction = 0;
+  prev_curr->direction = Left;
 
   while (prev_curr->curr != NULL && prev_curr->curr->value != value)
   {
     prev_curr->prev = prev_curr->curr;
     if (value < prev_curr->curr->value)
     {
-      prev_curr->direction = 0;
+      prev_curr->direction = Left;
       prev_curr->curr = prev_curr->curr->left;
     }
     else
     {
-      prev_curr->direction = 1;
+      prev_curr->direction = Right;
       prev_curr->curr = prev_curr->curr->right;
     }
   }
@@ -188,7 +188,7 @@ void delete_node(Tree_ptr tree, int value)
     Node_ptr ptr_to_free = node->prev->left;
     Node_ptr *ptr_to_set = &node->prev->left;
 
-    if(node->direction != 0)
+    if(node->direction == Right)
     {
       ptr_to_free = node->prev->right;
       ptr_to_set = &node->prev->right;

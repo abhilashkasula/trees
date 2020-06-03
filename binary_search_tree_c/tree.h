@@ -26,11 +26,17 @@ typedef enum
   True
 } Bool;
 
+typedef enum
+{
+  Left,
+  Right
+} Direction;
+
 typedef struct
 {
   Node_ptr prev;
   Node_ptr curr;
-  int direction;
+  Direction direction;
 } Prev_Curr;
 
 typedef Prev_Curr *Prev_Curr_ptr;
