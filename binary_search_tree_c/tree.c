@@ -123,36 +123,11 @@ void post_order(Tree_ptr tree)
   free(right_tree);
 }
 
-
-Prev_Curr_ptr get_node(Tree_ptr tree, int value)
-{
-  Prev_Curr_ptr prev_curr = malloc(sizeof(Prev_Curr));
-  prev_curr->curr = tree->root;
-  prev_curr->prev = NULL;
-  prev_curr->direction = Left;
-
-  while (prev_curr->curr != NULL && prev_curr->curr->value != value)
-  {
-    prev_curr->prev = prev_curr->curr;
-    if (value < prev_curr->curr->value)
-    {
-      prev_curr->direction = Left;
-      prev_curr->curr = prev_curr->curr->left;
-    }
-    else
-    {
-      prev_curr->direction = Right;
-      prev_curr->curr = prev_curr->curr->right;
-    }
-  }
-  return prev_curr;
-}
-
-Node_ptr get_min(Node_ptr node)
+Node_ptr find_min(Node_ptr node)
 {
   Node_ptr p_walk = node;
 
-  while (p_walk != NULL && p_walk->left != NULL)
+  while(p_walk != NULL && p_walk->left != NULL)
   {
     p_walk = p_walk->left;
   }
@@ -160,51 +135,46 @@ Node_ptr get_min(Node_ptr node)
   return p_walk;
 }
 
+Node_ptr delete(Node_ptr root, int value)
+{
+  if(root == NULL)
+  {
+    return root;
+  }
+
+  if(value < root->value)
+  {
+    root->left = delete(root->left, value);
+    return root;
+  }
+
+  if(value > root->value)
+  {
+    root->right = delete(root->right, value);
+    return root;
+  }
+
+  if(root->left == NULL)
+  {
+    Node_ptr right = root->right;
+    free(root);
+    return right;
+  }
+
+  if(root->right == NULL)
+  {
+    Node_ptr left = root->left;
+    free(root);
+    return left;
+  }
+
+  Node_ptr min = find_min(root->right);
+  root->value = min->value;
+  root->right = delete(root->right, min->value);
+  return root;
+}
+
 void delete_node(Tree_ptr tree, int value)
 {
-  if(tree->root == NULL || (tree->root->right == NULL && tree->root->left == NULL && tree->root->value == value))
-  {
-    free(tree->root);
-    tree->root = NULL;
-    return;
-  }
-
-  Prev_Curr_ptr node = get_node(tree, value);
-  if(node->curr == NULL)
-  {
-    return;
-  }
-
-  if(node->curr->right == NULL && node->curr->value == value && node->prev == NULL)
-  {
-    Node_ptr temp = tree->root;
-    tree->root = tree->root->left;
-    free(temp);
-    return;
-  }
-
-  if(node->curr->right == NULL)
-  {
-    Node_ptr ptr_to_free = node->prev->left;
-    Node_ptr *ptr_to_set = &node->prev->left;
-
-    if(node->direction == Right)
-    {
-      ptr_to_free = node->prev->right;
-      ptr_to_set = &node->prev->right;
-    }
-
-    *ptr_to_set = node->curr->left;
-    free(ptr_to_free);
-    return;
-  }
-
-  Node_ptr min = get_min(node->curr->right);
-  node->curr->value = min->value;
-
-  Tree_ptr temp_tree = create_tree();
-  temp_tree->root = node->curr->right;
-  delete_node(temp_tree, min->value);
-  
-  node->curr->right = temp_tree->root;
+  tree->root = delete(tree->root, value);
 }
