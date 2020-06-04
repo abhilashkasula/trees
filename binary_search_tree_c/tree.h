@@ -49,5 +49,6 @@ void pre_order(Tree_ptr tree);
 void post_order(Tree_ptr tree);
 void delete_node(Tree_ptr, int);
 void rotate_node_right(Tree_ptr tree, Node_ptr node);
+void rotate_node_left(Tree_ptr tree, Node_ptr node);
 
 #endif
