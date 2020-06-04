@@ -238,7 +238,34 @@ Node_ptr rotate_right(Node_ptr root, Node_ptr pivot)
   return another;
 }
 
-void rotate_node_right(Tree_ptr tree, Node_ptr node)
+void rotate_node_right(Tree_ptr tree, Node_ptr pivot)
 {
-  tree->root = rotate_right(tree->root, node);
+  if (tree->root == NULL)
+  {
+    return;
+  }
+
+  Prev_ptr previous_node = get_prev_with_direction(tree->root, pivot);
+  Node_ptr another = pivot->left;
+  if(another == NULL)
+  {
+    return;
+  }
+
+  Node_ptr temp = another->right;
+  Node_ptr * ptr_to_set = &tree->root;
+  another->right = pivot;
+  pivot->left = temp;
+
+  if (previous_node->prev != NULL)
+  {
+    ptr_to_set = &previous_node->prev->left;
+
+    if (previous_node->dir == Right)
+    {
+      ptr_to_set = &previous_node->prev->right;
+    }
+  }
+
+  *ptr_to_set = another;
 }
