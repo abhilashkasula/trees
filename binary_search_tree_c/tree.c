@@ -213,8 +213,12 @@ Node_ptr rotate_right(Node_ptr root, Node_ptr pivot)
 
   Prev_ptr previous_node = get_prev_with_direction(root, pivot);
   Node_ptr another = pivot->left;
-  Node_ptr temp = another->right;
+  if(another == NULL)
+  {
+    return root;
+  }
 
+  Node_ptr temp = another->right;
   another->right = pivot;
   pivot->left = temp;
 
