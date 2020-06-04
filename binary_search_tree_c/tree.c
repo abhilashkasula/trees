@@ -204,38 +204,19 @@ Prev_ptr get_prev_with_direction(Node_ptr root, Node_ptr node)
   return previous_node;
 }
 
-Node_ptr rotate_right(Node_ptr root, Node_ptr pivot)
+Node_ptr *get_ptr_to_set(Node_ptr *root, Prev_ptr node)
 {
-  if (root == NULL)
+  Node_ptr * ptr_to_set = root;
+  if(node->prev != NULL)
   {
-    return root;
-  }
+    ptr_to_set = &node->prev->left;
 
-  Prev_ptr previous_node = get_prev_with_direction(root, pivot);
-  Node_ptr another = pivot->left;
-  if(another == NULL)
-  {
-    return root;
-  }
-
-  Node_ptr temp = another->right;
-  another->right = pivot;
-  pivot->left = temp;
-
-  if (previous_node->prev != NULL)
-  {
-    Node_ptr *ptr_to_set = &previous_node->prev->left;
-
-    if (previous_node->dir == Right)
+    if(node->dir == Right)
     {
-      ptr_to_set = &previous_node->prev->right;
+      ptr_to_set = &node->prev->right;
     }
-    
-    *ptr_to_set = another;
-    return root;
   }
-
-  return another;
+  return ptr_to_set;
 }
 
 void rotate_node_right(Tree_ptr tree, Node_ptr pivot)
@@ -247,25 +228,36 @@ void rotate_node_right(Tree_ptr tree, Node_ptr pivot)
 
   Prev_ptr previous_node = get_prev_with_direction(tree->root, pivot);
   Node_ptr another = pivot->left;
-  if(another == NULL)
+  if (another == NULL)
   {
     return;
   }
 
   Node_ptr temp = another->right;
-  Node_ptr * ptr_to_set = &tree->root;
   another->right = pivot;
   pivot->left = temp;
 
-  if (previous_node->prev != NULL)
-  {
-    ptr_to_set = &previous_node->prev->left;
+  Node_ptr *ptr_to_set = get_ptr_to_set(&tree->root, previous_node);
+  *ptr_to_set = another;
+}
 
-    if (previous_node->dir == Right)
-    {
-      ptr_to_set = &previous_node->prev->right;
-    }
+void rotate_node_left(Tree_ptr tree, Node_ptr pivot)
+{
+  if (tree->root == NULL)
+  {
+    return;
+  }
+  Prev_ptr previous_node = get_prev_with_direction(tree->root, pivot);
+  Node_ptr another = pivot->right;
+  if (another == NULL)
+  {
+    return;
   }
 
+  Node_ptr temp = another->left;
+  another->left = pivot;
+  pivot->right = temp;
+
+  Node_ptr *ptr_to_set = get_ptr_to_set(&tree->root, previous_node);
   *ptr_to_set = another;
 }
