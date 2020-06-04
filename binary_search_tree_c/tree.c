@@ -127,7 +127,7 @@ Node_ptr find_min(Node_ptr node)
 {
   Node_ptr p_walk = node;
 
-  while(p_walk != NULL && p_walk->left != NULL)
+  while (p_walk != NULL && p_walk->left != NULL)
   {
     p_walk = p_walk->left;
   }
@@ -135,33 +135,33 @@ Node_ptr find_min(Node_ptr node)
   return p_walk;
 }
 
-Node_ptr delete(Node_ptr root, int value)
+Node_ptr delete (Node_ptr root, int value)
 {
-  if(root == NULL)
+  if (root == NULL)
   {
     return root;
   }
 
-  if(value < root->value)
+  if (value < root->value)
   {
-    root->left = delete(root->left, value);
+    root->left = delete (root->left, value);
     return root;
   }
 
-  if(value > root->value)
+  if (value > root->value)
   {
-    root->right = delete(root->right, value);
+    root->right = delete (root->right, value);
     return root;
   }
 
-  if(root->left == NULL)
+  if (root->left == NULL)
   {
     Node_ptr right = root->right;
     free(root);
     return right;
   }
 
-  if(root->right == NULL)
+  if (root->right == NULL)
   {
     Node_ptr left = root->left;
     free(root);
@@ -170,11 +170,71 @@ Node_ptr delete(Node_ptr root, int value)
 
   Node_ptr min = find_min(root->right);
   root->value = min->value;
-  root->right = delete(root->right, min->value);
+  root->right = delete (root->right, min->value);
   return root;
 }
 
 void delete_node(Tree_ptr tree, int value)
 {
-  tree->root = delete(tree->root, value);
+  tree->root = delete (tree->root, value);
+}
+
+Prev_ptr get_prev_with_direction(Node_ptr root, Node_ptr node)
+{
+  Node_ptr p_walk = root;
+  Prev_ptr previous_node = malloc(sizeof(Prev));
+  previous_node->prev = NULL;
+  previous_node->dir = Left;
+
+  while (p_walk != NULL && p_walk != node)
+  {
+    previous_node->prev = p_walk;
+    if (node->value < p_walk->value)
+    {
+      p_walk = p_walk->left;
+      previous_node->dir = Left;
+    }
+    else
+    {
+      p_walk = p_walk->right;
+      previous_node->dir = Right;
+    }
+  }
+
+  return previous_node;
+}
+
+Node_ptr rotate_right(Node_ptr root, Node_ptr pivot)
+{
+  if (root == NULL)
+  {
+    return root;
+  }
+
+  Prev_ptr previous_node = get_prev_with_direction(root, pivot);
+  Node_ptr another = pivot->left;
+  Node_ptr temp = another->right;
+
+  another->right = pivot;
+  pivot->left = temp;
+
+  if (previous_node->prev != NULL)
+  {
+    Node_ptr *ptr_to_set = &previous_node->prev->left;
+
+    if (previous_node->dir == Right)
+    {
+      ptr_to_set = &previous_node->prev->right;
+    }
+    
+    *ptr_to_set = another;
+    return root;
+  }
+
+  return another;
+}
+
+void rotate_node_right(Tree_ptr tree, Node_ptr node)
+{
+  tree->root = rotate_right(tree->root, node);
 }

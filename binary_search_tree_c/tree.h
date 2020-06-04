@@ -35,11 +35,10 @@ typedef enum
 typedef struct
 {
   Node_ptr prev;
-  Node_ptr curr;
-  Direction direction;
-} Prev_Curr;
+  Direction dir;
+} Prev;
 
-typedef Prev_Curr *Prev_Curr_ptr;
+typedef Prev *Prev_ptr;
 
 Node_ptr create_node(int value);
 Tree_ptr create_tree(void);
@@ -49,5 +48,6 @@ void in_order(Tree_ptr tree);
 void pre_order(Tree_ptr tree);
 void post_order(Tree_ptr tree);
 void delete_node(Tree_ptr, int);
+void rotate_node_right(Tree_ptr tree, Node_ptr node);
 
 #endif
