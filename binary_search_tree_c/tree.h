@@ -47,8 +47,11 @@ Bool search(Tree_ptr tree, int value);
 void in_order(Tree_ptr tree);
 void pre_order(Tree_ptr tree);
 void post_order(Tree_ptr tree);
+Node_ptr delete (Node_ptr root, int value);
 void delete_node(Tree_ptr, int);
+Node_ptr rotate_right(Node_ptr root, Node_ptr pivot);
 void rotate_node_right(Tree_ptr tree, Node_ptr node);
+Node_ptr rotate_left(Node_ptr root, Node_ptr pivot);
 void rotate_node_left(Tree_ptr tree, Node_ptr node);
 
 #endif
