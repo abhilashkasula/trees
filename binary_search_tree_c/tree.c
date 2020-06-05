@@ -179,85 +179,76 @@ void delete_node(Tree_ptr tree, int value)
   tree->root = delete (tree->root, value);
 }
 
-Prev_ptr get_prev_with_direction(Node_ptr root, Node_ptr node)
+Node_ptr rotate_right(Node_ptr root, Node_ptr pivot)
 {
-  Node_ptr p_walk = root;
-  Prev_ptr previous_node = malloc(sizeof(Prev));
-  previous_node->prev = NULL;
-  previous_node->dir = Left;
-
-  while (p_walk != NULL && p_walk != node)
+  if(root == NULL)
   {
-    previous_node->prev = p_walk;
-    if (node->value < p_walk->value)
-    {
-      p_walk = p_walk->left;
-      previous_node->dir = Left;
-    }
-    else
-    {
-      p_walk = p_walk->right;
-      previous_node->dir = Right;
-    }
+    return root;
   }
 
-  return previous_node;
-}
-
-Node_ptr *get_ptr_to_set(Node_ptr *root, Prev_ptr node)
-{
-  Node_ptr * ptr_to_set = root;
-  if(node->prev != NULL)
+  if(pivot->value < root->value)
   {
-    ptr_to_set = &node->prev->left;
-
-    if(node->dir == Right)
-    {
-      ptr_to_set = &node->prev->right;
-    }
+    root->left = rotate_right(root->left, pivot);
+    return root;
   }
-  return ptr_to_set;
-}
-
-void rotate_node_right(Tree_ptr tree, Node_ptr pivot)
-{
-  if (tree->root == NULL)
+  if(pivot->value > root->value)
   {
-    return;
+    root->right = rotate_right(root->right, pivot);
+    return root;
   }
 
-  Prev_ptr previous_node = get_prev_with_direction(tree->root, pivot);
   Node_ptr another = pivot->left;
-  if (another == NULL)
+
+  if(another == NULL)
   {
-    return;
+    return root;
   }
 
   Node_ptr temp = another->right;
   another->right = pivot;
   pivot->left = temp;
 
-  Node_ptr *ptr_to_set = get_ptr_to_set(&tree->root, previous_node);
-  *ptr_to_set = another;
+  return another;
 }
 
-void rotate_node_left(Tree_ptr tree, Node_ptr pivot)
+void rotate_node_right(Tree_ptr tree, Node_ptr pivot)
 {
-  if (tree->root == NULL)
+  tree->root = rotate_right(tree->root, pivot);
+}
+
+Node_ptr rotate_left(Node_ptr root, Node_ptr pivot)
+{
+  if(root == NULL)
   {
-    return;
+    return root;
   }
-  Prev_ptr previous_node = get_prev_with_direction(tree->root, pivot);
-  Node_ptr another = pivot->right;
-  if (another == NULL)
+
+  if(pivot->value < root->value)
   {
-    return;
+    root->left = rotate_left(root->left, pivot);
+    return root;
+  }
+  if(pivot->value > root->value)
+  {
+    root->right = rotate_left(root->right, pivot);
+    return root;
+  }
+
+  Node_ptr another = pivot->right;
+
+  if(another == NULL)
+  {
+    return root;
   }
 
   Node_ptr temp = another->left;
   another->left = pivot;
   pivot->right = temp;
 
-  Node_ptr *ptr_to_set = get_ptr_to_set(&tree->root, previous_node);
-  *ptr_to_set = another;
+  return another;
+}
+
+void rotate_node_left(Tree_ptr tree, Node_ptr pivot)
+{
+  tree->root = rotate_left(tree->root, pivot);
 }
