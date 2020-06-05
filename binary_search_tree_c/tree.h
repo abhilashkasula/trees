@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "array.h"
 
 typedef struct node
 {
@@ -39,5 +40,6 @@ Node_ptr rotate_right(Node_ptr root, Node_ptr pivot);
 void rotate_node_right(Tree_ptr tree, Node_ptr node);
 Node_ptr rotate_left(Node_ptr root, Node_ptr pivot);
 void rotate_node_left(Tree_ptr tree, Node_ptr node);
+void balance_tree(Tree_ptr tree);
 
 #endif

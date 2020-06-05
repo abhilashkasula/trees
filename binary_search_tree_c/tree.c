@@ -1,4 +1,5 @@
 #include "tree.h"
+#include "array.h"
 
 Node_ptr create_node(int value)
 {
@@ -251,4 +252,38 @@ Node_ptr rotate_left(Node_ptr root, Node_ptr pivot)
 void rotate_node_left(Tree_ptr tree, Node_ptr pivot)
 {
   tree->root = rotate_left(tree->root, pivot);
+}
+
+void store_nodes_in_array(Node_ptr root, Array_ptr array)
+{
+  if(root == NULL)
+  {
+    return;
+  }
+
+  store_nodes_in_array(root->left, array);
+  push(array, root);
+  store_nodes_in_array(root->right, array);
+}
+
+Node_ptr balance(Array_ptr array, int start, int end)
+{
+  if(start > end)
+  {
+    return NULL;
+  }
+
+  int pivot = (start + end) / 2;
+  Node_ptr root = array->nodes[pivot];
+  root->left = balance(array, start, pivot - 1);
+  root->right = balance(array, pivot + 1, end);
+  return root;
+}
+
+void balance_tree(Tree_ptr tree)
+{
+  Array_ptr tree_nodes = create_array(3);
+  store_nodes_in_array(tree->root, tree_nodes);
+  tree->root = balance(tree_nodes, 0, tree_nodes->length - 1);
+  destroy_array(tree_nodes);
 }
