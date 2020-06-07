@@ -217,41 +217,72 @@ void rotate_node_right(Tree_ptr tree, Node_ptr pivot)
   tree->root = rotate_right(tree->root, pivot);
 }
 
-Node_ptr rotate_left(Node_ptr root, Node_ptr pivot)
+Prev_Nodes_ptr create_prev_nodes(void)
 {
-  if(root == NULL)
+  Prev_Nodes_ptr prev_nodes = malloc(sizeof(Prev_Nodes));
+  prev_nodes->dir = 0;
+  prev_nodes->parent = NULL;
+  prev_nodes->prev = NULL;
+  return prev_nodes;
+}
+
+Prev_Nodes_ptr get_prev_nodes(Node_ptr root, Node_ptr pivot)
+{
+  Prev_Nodes_ptr prev_nodes = create_prev_nodes();
+  Node_ptr p_walk = root;
+  Direction dir = Left;
+
+  while(p_walk != NULL && p_walk != pivot)
   {
-    return root;
+    prev_nodes->parent = prev_nodes->prev;
+    prev_nodes->prev = p_walk;
+    prev_nodes->dir = dir;
+
+    if(pivot->value < p_walk->value)
+    {
+      dir = Left;
+      p_walk = p_walk->left;
+    }
+    else
+    {
+      dir = Right;
+      p_walk = p_walk->right;
+    }
   }
 
-  if(pivot->value < root->value)
-  {
-    root->left = rotate_left(root->left, pivot);
-    return root;
-  }
-  if(pivot->value > root->value)
-  {
-    root->right = rotate_left(root->right, pivot);
-    return root;
-  }
-
-  Node_ptr another = pivot->right;
-
-  if(another == NULL)
-  {
-    return root;
-  }
-
-  Node_ptr temp = another->left;
-  another->left = pivot;
-  pivot->right = temp;
-
-  return another;
+  return prev_nodes;
 }
 
 void rotate_node_left(Tree_ptr tree, Node_ptr pivot)
 {
-  tree->root = rotate_left(tree->root, pivot);
+  if(tree->root == NULL || pivot == NULL)
+  {
+    return;
+  }
+
+  Prev_Nodes_ptr prev_nodes = get_prev_nodes(tree->root, pivot);
+
+  if(prev_nodes->prev == NULL || prev_nodes->prev->right != pivot)
+  {
+    return;
+  }
+
+  Node_ptr temp = pivot->left;
+  pivot->left = prev_nodes->prev;
+  prev_nodes->prev->right = temp;
+  Node_ptr *ptr_to_set = &tree->root;
+
+  if(prev_nodes->parent != NULL)
+  {
+    ptr_to_set = &prev_nodes->parent->right;
+
+    if(prev_nodes->dir == 0)
+    {
+      ptr_to_set = &prev_nodes->parent->left;
+    }
+  }
+  
+  *ptr_to_set = pivot;
 }
 
 void store_nodes_in_array(Node_ptr root, Array_ptr array)
