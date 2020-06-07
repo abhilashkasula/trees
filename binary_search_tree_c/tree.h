@@ -26,21 +26,6 @@ typedef enum
   True
 } Bool;
 
-typedef enum
-{
-  Left,
-  Right
-} Direction;
-
-typedef struct
-{
-  Node_ptr parent;
-  Node_ptr prev;
-  Direction dir;
-} Prev_Nodes;
-
-typedef Prev_Nodes *Prev_Nodes_ptr;
-
 Node_ptr create_node(int value);
 Tree_ptr create_tree(void);
 void insert_node(Tree_ptr tree, int value);
