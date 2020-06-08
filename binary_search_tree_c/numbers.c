@@ -11,10 +11,8 @@ int main(void) {
   insert_node(tree, 45);
   insert_node(tree, 46);
 
-  printf("before balance\n");
-  pre_order(tree);
-  balance_tree(tree);
-  printf("\nafter balance\n");
-  pre_order(tree);
+  printf("height: ");
+  int a = get_tree_height(tree);
+  printf("%d\n", a);
   return 0;
 }

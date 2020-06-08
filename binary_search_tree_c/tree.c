@@ -287,3 +287,20 @@ void balance_tree(Tree_ptr tree)
   tree->root = balance(tree_nodes, 0, tree_nodes->length - 1);
   destroy_array(tree_nodes);
 }
+
+int get_height(Node_ptr root, int height)
+{
+  if(root == NULL)
+  {
+    return height;
+  }
+
+  int right = get_height(root->right, height + 1);
+  int left= get_height(root->left, height + 1);
+  return MAX(right, left);
+}
+
+int get_tree_height(Tree_ptr tree)
+{
+  return get_height(tree->root, 0);
+}

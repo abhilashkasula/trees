@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MAX(x, y) x > y ? x : y
+
 typedef struct node
 {
   int value;
@@ -40,5 +42,6 @@ void rotate_node_right(Tree_ptr tree, Node_ptr node);
 Node_ptr rotate_left(Node_ptr root, Node_ptr pivot);
 void rotate_node_left(Tree_ptr tree, Node_ptr node);
 void balance_tree(Tree_ptr tree);
+int get_tree_height(Tree_ptr);
 
 #endif
