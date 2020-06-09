@@ -224,7 +224,7 @@ int get_tree_height(Tree_ptr tree)
   return get_height(tree->root, 0);
 }
 
-int get_balance_delta(Node_ptr root)
+int get_balance_factor(Node_ptr root)
 {
   if (root == NULL)
   {
@@ -238,7 +238,7 @@ int get_balance_delta(Node_ptr root)
 
 Bool is_left_right(Node_ptr root)
 {
-  return get_balance_delta(root) == -2 && get_balance_delta(root->left) == 1;
+  return get_balance_factor(root) == -2 && get_balance_factor(root->left) == 1;
 }
 
 Node_ptr arrange_left_right(Node_ptr root)
@@ -256,7 +256,7 @@ Node_ptr balance(Node_ptr node)
 
   node->left = balance(node->left);
   node->right = balance(node->right);
-  int delta = get_balance_delta(node);
+  int delta = get_balance_factor(node);
 
   if (delta >= -1 && delta <= 1)
   {
