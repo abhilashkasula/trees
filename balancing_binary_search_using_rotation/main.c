@@ -44,10 +44,7 @@ int main(void) {
   // insert_node(tree, 7);
   // insert_node(tree, 6);
 
-  printf("before balancing:\n");
-  pre_order(tree);
-  balance_tree(tree);
-  printf("\nafter balancing:\n");
+  printf("after insertion:\n");
   pre_order(tree);
   return 0;
 }

@@ -36,6 +36,7 @@ void insert_node(Tree_ptr tree, int value)
   }
 
   *ptr_to_set = create_node(value);
+  balance_tree(tree);
 }
 
 Bool search(Tree_ptr tree, int value)
