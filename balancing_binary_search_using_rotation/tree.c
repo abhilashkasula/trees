@@ -267,16 +267,13 @@ Node_ptr balance(Node_ptr node)
     node = arrange_left_right(node);
   }
 
+  Rotator rotate = &rotate_left;
   if (delta < -1)
   {
-    node = rotate_right(node);
-  }
-  else
-  {
-    node = rotate_left(node);
+    rotate = &rotate_right;
   }
 
-  return balance(node);
+  return balance((*rotate)(node));
 }
 
 void balance_tree(Tree_ptr tree)

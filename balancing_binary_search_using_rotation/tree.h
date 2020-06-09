@@ -28,6 +28,8 @@ typedef enum
   True
 } Bool;
 
+typedef Node_ptr (*Rotator)(Node_ptr);
+
 Node_ptr create_node(int value);
 Tree_ptr create_tree(void);
 void insert_node(Tree_ptr tree, int value);
