@@ -226,7 +226,8 @@ int get_tree_height(Tree_ptr tree)
 
 int get_balance_delta(Node_ptr root)
 {
-  if(root == NULL) {
+  if (root == NULL)
+  {
     return 0;
   }
 
