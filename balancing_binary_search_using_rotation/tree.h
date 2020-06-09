@@ -45,7 +45,6 @@ Node_ptr balance(Node_ptr);
 void balance_tree(Tree_ptr tree);
 int get_height(Node_ptr root, int height);
 int get_tree_height(Tree_ptr);
-Node_ptr arrange_left_right(Node_ptr);
 Bool is_left_right(Node_ptr);
 int get_balance_delta(Node_ptr);
 
