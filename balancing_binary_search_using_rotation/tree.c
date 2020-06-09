@@ -242,12 +242,6 @@ Bool is_left_right(Node_ptr root)
   return get_balance_factor(root) == -2 && get_balance_factor(root->left) == 1;
 }
 
-Node_ptr arrange_left_right(Node_ptr root)
-{
-  root->left = rotate_left(root->left);
-  return root;
-}
-
 Node_ptr balance(Node_ptr node)
 {
   if (node == NULL)
@@ -266,7 +260,7 @@ Node_ptr balance(Node_ptr node)
 
   if (is_left_right(node))
   {
-    node = arrange_left_right(node);
+    node->left = rotate_left(node->left);
   }
 
   Rotator rotate = &rotate_left;
